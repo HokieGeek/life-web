@@ -18,7 +18,7 @@ var cellSpacing = 1;
 var cellAliveColor = '#4863a0'; // FIXME: hmmm
 var cellDeadColor = '#e0e0e0';
 
-function generateRandomSeed(id, boardSize, cellSize, coverage) {
+function generateRandomSeed(id, boardSize, cellSize, coverage) { // {{{
     // console.log("generateRandomSeed()", id, boardSize, cellSize, coverage);
     var seed = [];
 
@@ -50,9 +50,9 @@ function generateRandomSeed(id, boardSize, cellSize, coverage) {
     ctx.restore();
 
     return seed;
-}
+} // }}}
 
-function updateFromInputs(key, width, height) {
+function updateFromInputs(key, width, height) { // {{{
     // console.log("updateFromInputs():", key, width, height);
 
     var id = "board-"+key;
@@ -75,9 +75,9 @@ function updateFromInputs(key, width, height) {
     // Determine cell coverage and rebuild seed
     var coverage = parseInt($('#cellDensity-'+key).val());
     analysis.seed = generateRandomSeed(id, analysis.dimensions, analysis.elements.cellSize, coverage);
-}
+} // }}}
 
-function initBoard(key, padre) {
+function initBoard(key, padre) { // {{{
     var analysis = analyses[key];
     var boardWidth = Math.floor(analysis.dimensions.Width * (analysis.elements.cellSize.width + cellSpacing))
     var boardHeight = Math.floor(analysis.dimensions.Height * (analysis.elements.cellSize.height + cellSpacing));
@@ -130,7 +130,7 @@ function initBoard(key, padre) {
     updateFromInputs(key, boardWidth, boardHeight);
 
     return board;
-}
+} // }}}
 
 ////////////////////  ANALYSIS ////////////////////
 
@@ -138,7 +138,7 @@ function initBoard(key, padre) {
 // Fire the request and include a closure for the return id
 // From closure, continue filling out the analysis and add to the map
 
-var lifeIdtoAnalysisKey = {};
+var lifeIdtoAnalysisKey = {}; // {{{
 
 function analysisKey() {
     var i = 0;
@@ -146,10 +146,9 @@ function analysisKey() {
         return ++i;
     }
 }
-var getNextKey = analysisKey();
+var getNextKey = analysisKey(); // }}}
 
-var blah = 0;
-function createAnalysis() {
+function createAnalysis() { // {{{
     var key = getNextKey();
     analyses[key] = {
         id: null, // TODO: how about this be the lifed id but this client can keep track of them with its own ID     <<-------
@@ -270,20 +269,20 @@ function createAnalysis() {
     );
 
     analyses[key].elements.board = initBoard(key, $("#analysis-"+key));
-}
+} // }}}
 
 //////////////////// REQUESTORS ////////////////////
 
-function createNewAnalysisRequest(req, callback) {
+function createNewAnalysisRequest(req, callback) { // {{{
     // console.log("createNewAnalysisRequest(): ", req);
     $.post(server+"/analyze", JSON.stringify(req))
         .done(callback)
         .fail(function(err) {
             console.log("Got a post error:", err.status, err.responseText);
         });
-}
+} // }}}
 
-function pollAnalysisRequest(analysisId, startingGen, maxGen) {
+function pollAnalysisRequest(analysisId, startingGen, maxGen) { // {{{
     // console.log("pollAnalysisRequest()", analysisId, startingGen, maxGen);
     // console.log("analyses: ", analyses);
     $.post(server+"/poll", JSON.stringify({"Id": analysisId, "StartingGeneration": startingGen, "NumMaxGenerations": maxGen}))
@@ -295,13 +294,15 @@ function pollAnalysisRequest(analysisId, startingGen, maxGen) {
             console.log("Got update for unknown analysis: ", data.Id)
         }
     });
-}
+} // }}}
 
-function controlAnalysisRequest(key, order) {
+function controlAnalysisRequest(key, order) { // {{{
     $.post(server+"/control", JSON.stringify({"Id":  key, "Order": order}))
         .fail(function(err) {
             if (err.status != 0) {
                 console.log("Got a post error:", err.status, err.responseText);
             }
         });
-}
+} // }}}
+
+// vim: set foldmethod=marker:
