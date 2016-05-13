@@ -1,8 +1,15 @@
-#!/bin/sh
+#!/bin/bash
 
-[ $# -gt 0 -a "$1" == "--kill" ] && {
+killServers() {
+    echo "Killing servers"
     pkill biologistd
     pkill -f SimpleHTTPServer
+}
+
+trap "killServers" SIGINT SIGKILL SIGTERM
+
+[ $# -gt 0 -a "$1" == "--kill" ] && {
+    killServers
     exit 0
 }
 
@@ -19,5 +26,4 @@ pkill biologistd
 
 # [ $# -gt 0 ] && biologistdPort=$1 || biologistdPort=8080
 
-cd ~/src/go/src/github.com/hokiegeek/biologistd
-go install ./... && biologistd --port 8081 &
+biologistd --port 8081
