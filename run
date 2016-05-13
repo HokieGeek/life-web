@@ -1,0 +1,8 @@
+#!/bin/sh
+
+echo "[Starting httpd server]"
+
+pkill -f SimpleHTTPServer
+
+[ $# -gt 0 ] && httpdPort=$1 || httpdPort=8080
+python2 -m SimpleHTTPServer ${httpdPort}
