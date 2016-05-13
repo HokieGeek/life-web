@@ -1,8 +1,23 @@
 #!/bin/sh
 
+[ $# -gt 0 -a "$1" == "--kill" ] && {
+    pkill biologistd
+    pkill -f SimpleHTTPServer
+    exit 0
+}
+
 echo "[Starting httpd server]"
 
 pkill -f SimpleHTTPServer
 
 [ $# -gt 0 ] && httpdPort=$1 || httpdPort=8080
-python2 -m SimpleHTTPServer ${httpdPort}
+python2 -m SimpleHTTPServer ${httpdPort} &
+
+echo "[Starting biologistd server]"
+
+pkill biologistd
+
+# [ $# -gt 0 ] && biologistdPort=$1 || biologistdPort=8080
+
+cd ~/src/go/src/github.com/hokiegeek/biologistd
+go install ./... && biologistd --port 8081 &
