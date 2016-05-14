@@ -3,7 +3,7 @@ var pollRate_ms = "250";
 var processingRate_ms = "125";
 var maxPollGenerations = 25;
 var updateQueueLimit = 100;
-var StatusStr = ["Seeded", "Active", "Stable", "Dead"];
+// var StatusStr = ["Seeded", "Active", "Stable", "Dead"];
 
 var analyses = {};
 
@@ -162,6 +162,7 @@ function createAnalysis() { // {{{
         elements : {
             cellSize : { width: 3, height: 3 },
             currentGeneration : null,
+            currentStatus : null,
             board : null,
         },
         AddToQueue : function(data) {
@@ -182,8 +183,9 @@ function createAnalysis() { // {{{
                     var update = this.updateQueue.shift();
 
                     if (update != undefined) {
-                        // console.log("Processing: ", update.Living.length, update);
+                        console.log("Processing: ", update.Living.length, update);
                         this.elements.currentGeneration.text(update.Generation);
+                        this.elements.currentStatus.text(update.Status);
 
                         var cellWidth = this.elements.cellSize.width;
                         var cellHeight = this.elements.cellSize.height;
@@ -240,6 +242,7 @@ function createAnalysis() { // {{{
 
     // Create the generation object
     analyses[key].elements.currentGeneration = $("<span></span>").text("0").addClass("analysisGeneration");
+    analyses[key].elements.currentStatus = $("<span></span>").text("Unknown").addClass("analysisStatus");
 
     // Create a div for this analysis and attach it to the primary div
     $("#analyses").append(
@@ -247,10 +250,12 @@ function createAnalysis() { // {{{
 
         // Generation field
         .append($("<div></div>").addClass("analysisField")
-        .append($("<span>Generation: </span>")).append(analyses[key].elements.currentGeneration))
+        .append($("<span>Generation: </span>")).append(analyses[key].elements.currentGeneration)
+        .append($("<span>   Status: </span>")).append(analyses[key].elements.currentStatus) // FIXME
+        )
 
         // Control
-        .append($("<div style='height: 40px'></div>") // TODO: WTF
+        .append($("<div style='height: 30px'></div>") // TODO: WTF
                 .append($("<span></span>").addClass("analysisControl")
                                         .click(function() {
                                             // console.log("Running? ", this.running, this);
