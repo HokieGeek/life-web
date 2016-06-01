@@ -26,4 +26,4 @@ pkill biologistd
 
 # [ $# -gt 0 ] && biologistdPort=$1 || biologistdPort=8080
 
-biologistd --port 8081
+biologistd --port 8081 | tee log
