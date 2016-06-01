@@ -3,7 +3,6 @@ var pollRate_ms = "250";
 var processingRate_ms = "125";
 var maxPollGenerations = 25;
 var updateQueueLimit = 100;
-// var StatusStr = ["Seeded", "Active", "Stable", "Dead"];
 
 var analyses = {};
 
@@ -38,10 +37,10 @@ function generateRandomSeed(id, boardSize, cellSize, coverage) { // {{{
     for (var row = boardSize.Height-1; row >= 0; row--) {
       for (var col = boardSize.Width-1; col >= 0; col--) {
         if ((Math.random() * 100) > aliveVal) {
-          var x = col * adjWidth;
-          var y = row * adjHeight;
 
-          ctx.fillRect(x, y, cellSize.width, cellSize.height);
+          ctx.fillRect(col * adjWidth,
+                       row * adjHeight,
+                       cellSize.width, cellSize.height);
 
           seed.push({"X": col, "Y": row});
         }
@@ -148,6 +147,43 @@ function analysisKey() {
 }
 var getNextKey = analysisKey(); // }}}
 
+/*
+function createAnalysisControls(key) { // {{{
+    // Create the generation object
+    analyses[key].elements.currentGeneration = $("<span></span>").text("0").addClass("analysisGeneration");
+    analyses[key].elements.currentStatus = $("<span></span>").text("Unknown").addClass("analysisStatus");
+
+    // Create a div for this analysis and attach it to the primary div
+    $("#analyses").append(
+        $("<div></div>").attr("id", "analysis-"+key)
+
+        // Generation field
+        .append($("<div></div>").addClass("analysisField")
+        .append($("<span>Generation: </span>")).append(analyses[key].elements.currentGeneration)
+        .append($("<span>   Status: </span>")).append(analyses[key].elements.currentStatus) // FIXME
+        )
+
+        // Control
+        .append($("<div style='height: 30px'></div>") // TODO: WTF
+                .append($("<span></span>").addClass("analysisControl")
+                                        .click(function() {
+                                            // console.log("Running? ", this.running, this);
+                                            var analysis = analyses[key];
+                                            if (analysis.running) {
+                                                analysis.Stop();
+                                                this.innerHTML = '▶';
+                                            } else {
+                                                analysis.Start();
+                                                this.innerHTML = '▮▮';
+                                            }
+                                        })
+                                        .text("▶"))
+                ) // Control
+
+    );
+} // }}}
+*/
+
 function createAnalysis() { // {{{
     var key = getNextKey();
     analyses[key] = {
@@ -156,6 +192,8 @@ function createAnalysis() { // {{{
         processed : 0,
         processing: false,
         running : false,
+        currentEvolution : -1, // TODO
+        history : [], // TODO
         updateQueue : [],
         seed : [],
         dimensions : { Width: 120, Height: 80 },
@@ -164,6 +202,30 @@ function createAnalysis() { // {{{
             currentGeneration : null,
             currentStatus : null,
             board : null,
+        },
+        renderEvolution : function(evolution) {
+                    console.log("renderEvolution: ", evolution.Living.length, evolution);
+                    this.elements.currentGeneration.text(evolution.Generation);
+                    this.elements.currentStatus.text(evolution.Status);
+
+                    var adjWidth = this.elements.cellSize.width + cellSpacing;
+                    var adjHeight = this.elements.cellSize.height + cellSpacing;
+
+                    var board = this.elements.board;
+                    var ctx = board[0].getContext('2d');
+                    ctx.save()
+
+                    ctx.setTransform(1, 0, 0, 1, 0, 0);
+                    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+                    ctx.fillStyle = cellAliveColor;
+                    for (var i = evolution.Living.length-1; i >= 0; i--) {
+                        ctx.fillRect(evolution.Living[i].X * adjWidth,
+                                     evolution.Living[i].Y * adjHeight,
+                                     this.elements.cellSize.width,
+                                     this.elements.cellSize.height);
+                    }
+                    ctx.restore();
         },
         AddToQueue : function(data) {
                         // console.log("  AddToQueue()", data);
@@ -175,45 +237,21 @@ function createAnalysis() { // {{{
                         if (!this.processing && this.updateQueue.length > 0 && this.updateQueue.length < updateQueueLimit) {
                             this.processing = true;
                             // TODO: only do this timeout if one doesn't already exist
-                            setTimeout($.proxy(this.Processor, this), processingRate_ms);
+                            setTimeout($.proxy(this.processor, this), processingRate_ms);
                         }
                     },
-        Processor : function() {
+        processor : function() {
                     // console.log("Process()", key, this);
                     var update = this.updateQueue.shift();
 
                     if (update != undefined) {
-                        console.log("Processing: ", update.Living.length, update);
-                        this.elements.currentGeneration.text(update.Generation);
-                        this.elements.currentStatus.text(update.Status);
-
-                        var cellWidth = this.elements.cellSize.width;
-                        var cellHeight = this.elements.cellSize.height;
-
-                        var adjWidth = cellWidth + cellSpacing;
-                        var adjHeight = cellHeight + cellSpacing;
-
-                        var board = this.elements.board;
-                        var ctx = board[0].getContext('2d');
-                        ctx.save()
-
-                        ctx.setTransform(1, 0, 0, 1, 0, 0);
-                        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
-                        ctx.fillStyle = cellAliveColor;
-                        for (var i = update.Living.length-1; i >= 0; i--) {
-                              var x = update.Living[i].X * adjWidth;
-                              var y = update.Living[i].Y * adjHeight;
-
-                              ctx.fillRect(x, y, cellWidth, cellHeight);
-                        }
-                        ctx.restore();
+                        this.renderEvolution(update);
 
                         this.processed++;
 
                         // Keep processing
                         if (this.updateQueue.length > 0 && this.running) {
-                            setTimeout($.proxy(this.Processor, this), processingRate_ms);
+                            setTimeout($.proxy(this.processor, this), processingRate_ms);
                         } else {
                             this.processing = false;
                         }
@@ -256,6 +294,8 @@ function createAnalysis() { // {{{
 
         // Control
         .append($("<div style='height: 30px'></div>") // TODO: WTF
+                // ↞
+                // ↠
                 .append($("<span></span>").addClass("analysisControl")
                                         .click(function() {
                                             // console.log("Running? ", this.running, this);
