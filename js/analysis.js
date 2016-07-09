@@ -1,4 +1,4 @@
-var server = "http://localhost:8081";
+var server = "http://0.0.0.0:8081";
 var pollRate_ms = "250";
 var processingRate_ms = "125";
 var maxPollGenerations = 25;
