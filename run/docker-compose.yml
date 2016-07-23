@@ -5,12 +5,14 @@ services:
       context: .
       dockerfile: Dockerfile-biologist-web
     ports:
-     - "8080:8080"
+      - "8080:8080"
     depends_on:
-     - biologistd
+      - biologistd
   biologistd:
     build:
       context: .
       dockerfile: Dockerfile-biologistd
     ports:
-     - "8081:8081"
+      - "8081:8081"
+    logging:
+      driver: json-file
