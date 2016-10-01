@@ -3,6 +3,3 @@ FROM golang:latest
 RUN go get github.com/hokiegeek/biologistd
 RUN cd /go/src/github.com/hokiegeek/biologist && git checkout detect-cycle
 RUN go install github.com/hokiegeek/biologistd
-
-ENTRYPOINT ["biologistd"]
-CMD ["--port", "8081"]

@@ -6,6 +6,12 @@ services:
       dockerfile: Dockerfile-biologist-web
     ports:
       - "8080:8080"
+    entrypoint:
+      - python3
+      - -m
+      - http.server
+    command: "8080"
+    working_dir: /biologist-web
     depends_on:
       - biologistd
   biologistd:
@@ -14,5 +20,8 @@ services:
       dockerfile: Dockerfile-biologistd
     ports:
       - "8081:8081"
+    entrypoint:
+      - biologistd
+    command: ["--port", "8081"]
     logging:
       driver: json-file
