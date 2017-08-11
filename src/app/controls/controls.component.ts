@@ -9,9 +9,16 @@ import { Lab } from '../lab.service';
 })
 export class ControlsComponent implements OnInit {
 
+    lab: Lab
+
     constructor(lab: Lab) {
+        this.lab = lab
     }
 
     ngOnInit() {
+    }
+
+    create() {
+        this.lab.newExperiment()
     }
 }
