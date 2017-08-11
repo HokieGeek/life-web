@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Lab } from '../lab.service';
+
 @Component({
   selector: 'petridish',
   templateUrl: './petridish.component.html',
@@ -7,9 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PetridishComponent implements OnInit {
 
-  constructor() { }
+    constructor(lab: Lab) {
+    }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
 }

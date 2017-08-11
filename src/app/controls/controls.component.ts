@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Lab } from '../lab.service';
+
 @Component({
   selector: 'controls',
   templateUrl: './controls.component.html',
@@ -7,9 +9,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ControlsComponent implements OnInit {
 
-  constructor() { }
+    constructor(lab: Lab) {
+    }
 
-  ngOnInit() {
-  }
-
+    ngOnInit() {
+    }
 }
