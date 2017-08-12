@@ -1,0 +1,9 @@
+canvas {
+    background: #e0e0e0;
+    border: 1px solid #a0a0a0;
+}
+
+.resizable-helper {
+      border: 1px dotted #000000;
+}
+
