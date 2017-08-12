@@ -1,1 +1,17 @@
-<canvas #board class="ui-widget-content"></canvas>
+<div class="m-3"
+     [style.width.px]="width * (cellSize + cellSpacing)"
+     [style.height.px]="height * (cellSize + cellSpacing)">
+    <div>
+        <board [cols]="width" [rows]="height"
+               [cellSize]="cellSize" [cellSpacing]="cellSpacing"
+               [cells]="livingCells">
+        </board>
+    </div>
+    <div>
+        Cell size: <input type="range" min="1" max="10" [(ngModel)]="cellSize" />
+        <button type="button" class="btn btn-secondary" (click)="generateSeed()">Shuffle</button>
+    </div>
+    <div>
+        <button type="button" class="btn btn-primary w-100" (click)="analyze()">Analyze</button>
+    </div>
+</div>
