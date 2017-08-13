@@ -1,17 +1,30 @@
 <div class="m-3"
      [style.width.px]="width * (cellSize + cellSpacing)"
      [style.height.px]="height * (cellSize + cellSpacing)">
+    <div class="d-flex flex-column mb-2">
+        <div class="d-flex flex-row">
+            <div>
+                Cell size: <input type="range" min="2" max="6" [(ngModel)]="cellSize" />
+            </div>
+            <div *ngIf="!creating">{{height}} x {{width}}</div>
+            <div *ngIf="creating" class="d-flex flex-row">
+                <input type="text" placeholder="rows" title="rows" [(ngModel)]="height" size="3" class="dimbox" />
+                x
+                <input type="text" placeholder="cols" title="columns" [(ngModel)]="width" size="3" class="dimbox" />
+            </div>
+        </div>
+        <div *ngIf="creating">
+            Density: <input type="range" min="10" max="90" [(ngModel)]="cellDensity" />
+        </div>
+        <button *ngIf="creating" type="button" class="btn btn-secondary align-self-stretch" (click)="generateSeed()">Shuffle</button>
+    </div>
     <div>
         <board [cols]="width" [rows]="height"
                [cellSize]="cellSize" [cellSpacing]="cellSpacing"
                [cells]="livingCells">
         </board>
     </div>
-    <div>
-        Cell size: <input type="range" min="1" max="10" [(ngModel)]="cellSize" />
-        <button type="button" class="btn btn-secondary" (click)="generateSeed()">Shuffle</button>
-    </div>
-    <div>
-        <button type="button" class="btn btn-primary w-100" (click)="analyze()">Analyze</button>
+    <div *ngIf="creating">
+        <button type="button" class="btn btn-outline-primary w-100" (click)="analyze()">Analyze</button>
     </div>
 </div>
