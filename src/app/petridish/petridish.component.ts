@@ -33,6 +33,15 @@ export class PetridishComponent implements OnInit {
 
     analyze() {
         console.log("TODO: analyze")
+        this.lab.newExperiment(this.width, this.height, this.livingCells,
+            response => {
+                    this.creating = false
+                    console.log(">> POST CALLBACK", response)
+                    if (response.status != 422) {
+                        console.log(response.json().Id)
+                    }
+            }
+        )
     }
 
     ngOnInit() {
