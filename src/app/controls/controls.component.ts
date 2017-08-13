@@ -18,6 +18,7 @@ export class ControlsComponent implements OnInit {
     }
 
     create() {
-        this.lab.newExperiment()
+        console.log("TODO: create a new petridish")
+        // this.lab.newExperiment()
     }
 }

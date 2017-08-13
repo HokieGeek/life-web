@@ -10,22 +10,16 @@ export class Lab {
 
     constructor(private http: Http) { }
 
-    newExperiment() {
-        console.log("TODO: new experiment")
-        // TODO: deal with callback
-        this.http.post(this.server+"/analyze",
-            {"Dims": {"Width": 150, "Height": 100}, "Pattern": 0, "Seed": this.dummySeed})
-                .subscribe(data => { console.log("POST CALLBACK", data) })
+    newExperiment(width, height, seed, callback) {
+        const req = {Dims: {Width: 100, Height: 50}, Pattern: 0, Seed: [{X: 0, Y: 0}]}
+        this.http.post(this.server+"/analyze", JSON.stringify(req)).subscribe(callback)
     }
 
     dummySeed() {
         var dummy = []
         for (var row = 99; row >= 0; row--) {
             for (var col = 149; col >= 0; col--) {
-                // if (row % 2 == 0 && col % 2 != 0) {
-                // if (row % 2 == 0) {
-                    dummy.push(new Cell(col, row));
-                // }
+                dummy.push(new Cell(col, row));
             }
         }
         return dummy
