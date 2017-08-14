@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http,Response } from '@angular/http';
 
 import { Cell } from './cell'
 
@@ -10,18 +10,21 @@ export class Lab {
 
     constructor(private http: Http) { }
 
-    newExperiment(width, height, seed, callback) {
-        const req = {Dims: {Width: 100, Height: 50}, Pattern: 0, Seed: [{X: 0, Y: 0}]}
-        this.http.post(this.server+"/analyze", JSON.stringify(req)).subscribe(callback)
+    newExperiment(width, height, seed) {
+        const req = {Dims: {Width: width, Height: height}, Pattern: 0, Seed: seed}
+        // this.http.post(this.server+"/analyze", JSON.stringify(req)).subscribe(callback)
+        return this.http.post(this.server+"/analyze", JSON.stringify(req))
+                .map((res: Response) => res.json())
+        // .catch()
     }
 
-    dummySeed() {
-        var dummy = []
-        for (var row = 99; row >= 0; row--) {
-            for (var col = 149; col >= 0; col--) {
-                dummy.push(new Cell(col, row));
-            }
-        }
-        return dummy
+    poll(id, startingGen, maxGen) {
+        const req = {"Id": id, "StartingGeneration": startingGen, "NumMaxGenerations": maxGen}
+        return this.http.post(this.server+"/poll", JSON.stringify(req))
+                .map((res: Response) => res.json())
+    }
+
+    control(id, order) {
+        return this.http.post(this.server+"/control", JSON.stringify({"Id": id, "Order": order}))
     }
 }
