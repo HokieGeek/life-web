@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import 'rxjs/Rx'
 
 import { Lab } from '../lab.service'
 import { Cell } from '../cell'
@@ -32,16 +33,38 @@ export class PetridishComponent implements OnInit {
     }
 
     analyze() {
-        console.log("TODO: analyze")
-        this.lab.newExperiment(this.width, this.height, this.livingCells,
-            response => {
+        this.lab.newExperiment(this.width, this.height, this.livingCells)
+            .subscribe(response => {
                     this.creating = false
-                    console.log(">> POST CALLBACK", response)
-                    if (response.status != 422) {
-                        console.log(response.json().Id)
-                    }
-            }
-        )
+
+                    console.log(">> ANALYZE CALLBACK", response)
+                    var startingGen = 0
+                    var maxGen = 25
+                    this.lab.poll(response.Id, startingGen, maxGen)
+                        .subscribe(updates => {
+                                console.log(">> POLL CALLBACK", updates)
+                                this.livingCells = updates.Updates[0].Living
+                            }
+                        )
+                }
+            )
+        // this.lab.newExperiment(this.width, this.height, this.livingCells,
+        //     response => {
+        //             this.creating = false
+        //             console.log(">> ANALYZE CALLBACK", response)
+        //             if (response.status != 422) {
+        //                 console.log(response.json().Id)
+        //                 var startingGen = 0
+        //                 var maxGen = 25
+        //                 this.lab.poll(response.json().Id, startingGen, maxGen,
+        //                     response => {
+        //                         console.log(">> POLL CALLBACK", response.json())
+        //                         this.livingCells = response.json().Updates[0].Living
+        //                     }
+        //                 )
+        //             }
+        //     }
+        // )
     }
 
     ngOnInit() {
