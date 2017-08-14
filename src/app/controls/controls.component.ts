@@ -8,10 +8,7 @@ import { Lab } from '../lab.service';
   styleUrls: ['./controls.component.css']
 })
 export class ControlsComponent implements OnInit {
-    private lab: Lab
-
     constructor(lab: Lab) {
-        this.lab = lab
     }
 
     ngOnInit() {
