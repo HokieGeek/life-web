@@ -21,7 +21,7 @@
     <div>
         <board [cols]="width" [rows]="height"
                [cellSize]="cellSize" [cellSpacing]="cellSpacing"
-               [cells]="livingCells">
+               [cells]="getCurrentLiving()">
         </board>
     </div>
     <div *ngIf="creating">

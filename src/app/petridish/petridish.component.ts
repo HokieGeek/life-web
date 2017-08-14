@@ -12,62 +12,73 @@ import { Cell } from '../cell'
 export class PetridishComponent implements OnInit {
     private width: number = 75
     private height: number = 50
-    livingCells: Cell[]
     cellSize: number = 3
     cellDensity: number = 70
     cellSpacing: number = 1
     creating: boolean = true
 
+    currentGeneration: number = 0
+    generations: Generation[] = []
+
     constructor(private lab: Lab) {
     }
 
     generateSeed() {
-        this.livingCells = []
+        var seed = []
         for (var row = this.height-1; row >= 0; row--) {
             for (var col = this.width-1; col >= 0; col--) {
                 var randomVal = Math.random() * 100
                 if (randomVal > this.cellDensity) continue
-                this.livingCells.push(new Cell(col, row))
+                seed.push(new Cell(col, row))
             }
         }
+        return seed
     }
 
     analyze() {
-        this.lab.newExperiment(this.width, this.height, this.livingCells)
+        this.lab.newExperiment(this.width, this.height, this.generations[this.currentGeneration].living)
             .subscribe(response => {
                     this.creating = false
 
                     console.log(">> ANALYZE CALLBACK", response)
                     var startingGen = 0
                     var maxGen = 25
+                    this.generations = []
                     this.lab.poll(response.Id, startingGen, maxGen)
                         .subscribe(updates => {
                                 console.log(">> POLL CALLBACK", updates)
-                                this.livingCells = updates.Updates[0].Living
+                                for (let update of updates.Updates) {
+                                    // var update = updates.Updates[0]
+                                    // console.log(">> POLL CALLBACK", update)
+                                    this.generations.push(new Generation(update.Generation, update.Status, update.Living))
+                                }
                             }
                         )
                 }
             )
-        // this.lab.newExperiment(this.width, this.height, this.livingCells,
-        //     response => {
-        //             this.creating = false
-        //             console.log(">> ANALYZE CALLBACK", response)
-        //             if (response.status != 422) {
-        //                 console.log(response.json().Id)
-        //                 var startingGen = 0
-        //                 var maxGen = 25
-        //                 this.lab.poll(response.json().Id, startingGen, maxGen,
-        //                     response => {
-        //                         console.log(">> POLL CALLBACK", response.json())
-        //                         this.livingCells = response.json().Updates[0].Living
-        //                     }
-        //                 )
-        //             }
-        //     }
-        // )
+    }
+
+    getCurrentLiving() {
+        if (this.generations.length > 0) {
+            return this.generations[this.currentGeneration].living
+        } else {
+            return null
+        }
     }
 
     ngOnInit() {
-        this.generateSeed()
+        this.generations.push(new Generation(0, "Creating", this.generateSeed()))
+    }
+}
+
+class Generation {
+    num: number
+    status: string
+    living: Cell[]
+
+    constructor(n, s, l) {
+        this.num = n
+        this.status = s
+        this.living = l
     }
 }
