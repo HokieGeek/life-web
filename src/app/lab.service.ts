@@ -69,7 +69,7 @@ export class Generation {
 }
 
 /*
--- A structure (Experiment) which keeps the timeline window of living cells
+   A structure (Experiment) which keeps the timeline window of living cells
    * Needs a min and max
    * Order as map or fixed-sized list. The more you add to one end of the list, the more drop off the opposite end
 */
@@ -87,7 +87,7 @@ export class Experiment {
     start() {
         console.log("TODO")
         // this.lab.startExperiment2(this.columns, this.rows, this.seed)
-        this.lab.startExperiment(this.columns, this.rows, this.seed)
+        this.lab.startExperiment(this.columns, this.rows, this.seed.living)
             .subscribe(response => {
                     console.log(">> ANALYZE CALLBACK", response)
                     var startingGen = 0
