@@ -26,8 +26,6 @@ export class PetridishComponent implements OnInit {
     constructor() { }
 
     ngOnInit() {
-        this.experiment.rows = 50
-        this.experiment.columns = 75
         this.createSeed()
     }
 

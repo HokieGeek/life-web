@@ -1,6 +1,7 @@
 <div class="m-3"
      [style.width.px]="experiment.columns * (cellSize + cellSpacing)"
      [style.height.px]="experiment.rows * (cellSize + cellSpacing)">
+    <!-- TODO: Add delete button -->
     <div class="d-flex flex-column mb-2">
         <span *ngIf="creating">
             <div class="d-flex flex-row">
