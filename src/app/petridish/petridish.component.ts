@@ -47,6 +47,7 @@ export class PetridishComponent implements OnInit {
 
     analyze() {
         this.creating = false
+        this.playing = true
         this.experiment.start()
     }
 
