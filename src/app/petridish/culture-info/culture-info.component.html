@@ -1,16 +1,20 @@
-<div class="d-flex flex-column p-2 h-100 d-inline-block board-info">
-    <div class="d-flex flex-row dims">
-        <span title="rows">{{boardHeight}}</span> x <span title="columns">{{boardWidth}}</span> </div>
-    <div class="d-flex flex-row">
-        <span class="label">Generation:</span>
-        <span class="data">{{generation.generation}}</span>
+<div class="d-flex flex-column p-2 h-100 culture-info">
+    <div class="d-flex justify-content-start">
+        <div class="d-flex flex-row dims">
+            <span title="rows">{{boardHeight}}</span> x <span title="columns">{{boardWidth}}</span>
+        </div>
+        <button type="button" class="ml-auto close">&#10006;</button>
     </div>
     <div class="d-flex flex-row">
-        <span class="label">Status:</span>
+        <span class="label">Generation:&nbsp;</span>
+        <span class="data">{{generation.num}}</span>
+    </div>
+    <div class="d-flex flex-row">
+        <span class="label">Status:&nbsp;</span>
         <span class="data">{{generation.status}}</span>
     </div>
     <div class="d-flex flex-row">
-        <span class="label">Num Living:</span>
+        <span class="label">Num&nbsp;Living:&nbsp;</span>
         <span class="data">{{generation.living.length}}</span>
     </div>
     <!--
@@ -18,5 +22,7 @@
         <span class="label">Started:</span>
         <span class="data">{{startTime}}</span>
     </div>
+
+    &#10006;
     -->
 </div>
