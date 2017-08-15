@@ -1,30 +1,47 @@
 <div class="m-3"
-     [style.width.px]="width * (cellSize + cellSpacing)"
-     [style.height.px]="height * (cellSize + cellSpacing)">
+     [style.width.px]="experiment.columns * (cellSize + cellSpacing)"
+     [style.height.px]="experiment.rows * (cellSize + cellSpacing)">
     <div class="d-flex flex-column mb-2">
-        <div class="d-flex flex-row">
-            <div>
+        <span *ngIf="creating">
+            <div class="d-flex flex-row">
+                Width: <input type="text" class="dimbox" size="3" title="rows" [(ngModel)]="experiment.rows" (change)="createSeed()" />
+                Height: <input type="text" class="dimbox" size="3" title="columns" [(ngModel)]="experiment.columns" (change)="createSeed()" />
+            </div>
+            <div class="d-flex flex-row">
                 Cell size: <input type="range" min="2" max="6" [(ngModel)]="cellSize" />
             </div>
-            <div *ngIf="!creating">{{height}} x {{width}}</div>
-            <div *ngIf="creating" class="d-flex flex-row">
-                <input type="text" placeholder="rows" title="rows" [(ngModel)]="height" size="3" class="dimbox" />
-                x
-                <input type="text" placeholder="cols" title="columns" [(ngModel)]="width" size="3" class="dimbox" />
+            <div class="d-flex flex-row">
+                Density: <input type="range" min="10" max="90" [(ngModel)]="cellDensity" (change)="createSeed()" />
             </div>
-        </div>
-        <div *ngIf="creating">
-            Density: <input type="range" min="10" max="90" [(ngModel)]="cellDensity" />
-        </div>
-        <button *ngIf="creating" type="button" class="btn btn-secondary align-self-stretch" (click)="generateSeed()">Shuffle</button>
-    </div>
-    <div>
-        <board [cols]="width" [rows]="height"
+            <!--button type="button"
+                    class="btn btn-secondary align-self-stretch"
+                    title="Regenerate seed"
+                    (click)="createSeed()">&#x21BA;</button-->
+        </span>
+        <board [cols]="experiment.columns" [rows]="experiment.rows"
                [cellSize]="cellSize" [cellSpacing]="cellSpacing"
-               [cells]="getCurrentLiving()">
+               [cells]="getCurrentGeneration().living">
         </board>
+        <div *ngIf="creating" class="d-flex flex-row">
+            <button type="button" class="btn btn-outline-primary w-100" (click)="analyze()">Analyze</button>
+        </div>
     </div>
-    <div *ngIf="creating">
-        <button type="button" class="btn btn-outline-primary w-100" (click)="analyze()">Analyze</button>
+    <div *ngIf="!creating" class="d-flex flex-column">
+        <culture-info [generation]="getCurrentGeneration()"
+                      [boardWidth]="width"
+                      [boardHeight]="height">
+        </culture-info>
+        <div class="playback-controls">
+           <span (click)="nav('-', 20)" title="Move backwards 20 generations"> &#x23EA; </span>
+           <span (click)="nav('-', 1)" title="Move backwards 1 generation"> &#x25C0; </span>
+           <span (click)="togglePlay()">
+            &nbsp;
+            <span *ngIf="!playing" title="Play">&#x25BA;</span>
+            <span *ngIf="playing" title="Pause">&#10074;&#10074;</span>
+            &nbsp;
+           </span>
+           <span (click)="nav('+', 1)" title="Move forward 1 generation"> &#x25B6; </span>
+           <span (click)="nav('+', 20)" title="Move forward 20 generations"> &#x23E9; </span>
+        </div>
     </div>
 </div>

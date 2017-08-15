@@ -1,8 +1,12 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import 'rxjs/Rx'
 
-import { Lab } from '../lab.service'
+import { Generation, Experiment } from '../lab.service'
 import { Cell } from '../cell'
+
+/*
+Petridish's reason to be is to provide controls and a viewer to the timline structure
+*/
 
 @Component({
   selector: 'petridish',
@@ -10,23 +14,31 @@ import { Cell } from '../cell'
   styleUrls: ['./petridish.component.css']
 })
 export class PetridishComponent implements OnInit {
-    private width: number = 75
-    private height: number = 50
+    private playing: boolean = false
     cellSize: number = 3
     cellDensity: number = 70
     cellSpacing: number = 1
     creating: boolean = true
 
+    @Input() experiment: Experiment
     currentGeneration: number = 0
-    generations: Generation[] = []
 
-    constructor(private lab: Lab) {
+    constructor() { }
+
+    ngOnInit() {
+        this.experiment.rows = 50
+        this.experiment.columns = 75
+        this.createSeed()
+    }
+
+    createSeed() {
+        this.experiment.seed = new Generation(0, "Creating", this.generateSeed())
     }
 
     generateSeed() {
         var seed = []
-        for (var row = this.height-1; row >= 0; row--) {
-            for (var col = this.width-1; col >= 0; col--) {
+        for (var row = this.experiment.rows-1; row >= 0; row--) {
+            for (var col = this.experiment.columns-1; col >= 0; col--) {
                 var randomVal = Math.random() * 100
                 if (randomVal > this.cellDensity) continue
                 seed.push(new Cell(col, row))
@@ -36,49 +48,24 @@ export class PetridishComponent implements OnInit {
     }
 
     analyze() {
-        this.lab.newExperiment(this.width, this.height, this.generations[this.currentGeneration].living)
-            .subscribe(response => {
-                    this.creating = false
-
-                    console.log(">> ANALYZE CALLBACK", response)
-                    var startingGen = 0
-                    var maxGen = 25
-                    this.generations = []
-                    this.lab.poll(response.Id, startingGen, maxGen)
-                        .subscribe(updates => {
-                                console.log(">> POLL CALLBACK", updates)
-                                for (let update of updates.Updates) {
-                                    // var update = updates.Updates[0]
-                                    // console.log(">> POLL CALLBACK", update)
-                                    this.generations.push(new Generation(update.Generation, update.Status, update.Living))
-                                }
-                            }
-                        )
-                }
-            )
+        this.creating = false
+        this.start.experiment.start()
     }
 
-    getCurrentLiving() {
-        if (this.generations.length > 0) {
-            return this.generations[this.currentGeneration].living
+    getCurrentGeneration() {
+        if (this.experiment.generations.length > 0) {
+            return this.experiment.generations[this.currentGeneration]
         } else {
-            return null
+            return this.experiment.seed
         }
     }
 
-    ngOnInit() {
-        this.generations.push(new Generation(0, "Creating", this.generateSeed()))
+    togglePlay() {
+        this.playing = !this.playing
+        // TODO: do a thing
     }
-}
 
-class Generation {
-    num: number
-    status: string
-    living: Cell[]
-
-    constructor(n, s, l) {
-        this.num = n
-        this.status = s
-        this.living = l
+    nav(direction, step) {
+        console.log("TODO: nav", direction, step)
     }
 }

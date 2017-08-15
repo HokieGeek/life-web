@@ -9,8 +9,7 @@ import { Cell } from '../cell'
   styleUrls: ['./dishrack.component.css']
 })
 export class DishrackComponent implements OnInit {
-    constructor(lab: Lab) { }
+    constructor(private lab: Lab) { }
 
-    ngOnInit() {
-    }
+    ngOnInit() { }
 }
