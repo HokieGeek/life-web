@@ -13,6 +13,6 @@ export class ControlsComponent implements OnInit {
     ngOnInit() { }
 
     create() {
-        this.lab.newExperiment()
+        this.lab.newExperiment(50, 75)
     }
 }
