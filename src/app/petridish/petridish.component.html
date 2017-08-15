@@ -10,16 +10,17 @@
             </div>
             <div class="d-flex flex-row">
                 <span style="margin-right: 5px;">Cell&nbsp;size: </span>
-                <input type="range" min="2" max="6" [(ngModel)]="cellSize" />
+                <input type="range" min="2" max="6" [(ngModel)]="cellSize" title="cellSize" />
             </div>
             <div class="d-flex flex-row">
                 <span style="margin-right: 5px;">Density: </span>
-                <input type="range" min="10" max="90" [(ngModel)]="cellDensity" (change)="createSeed()" />
+                <input type="range" min="10" max="90" [(ngModel)]="cellDensity" (change)="createSeed()" title="cellDensity" />
             </div>
             <!--button type="button"
                     class="btn btn-secondary align-self-stretch"
                     title="Regenerate seed"
                     (click)="createSeed()">&#x21BA;</button-->
+            <button type="button" class="btn btn-outline-primary w-100" (click)="analyze()">Analyze</button>
         </span>
         <div class="d-flex flex-row mt-1">
             <board [cols]="experiment.columns" [rows]="experiment.rows"
@@ -36,7 +37,7 @@
                 <div *ngIf="!creating" class="mt-1 playback-controls align-items-end">
                    <!--span (click)="nav('-', 20)" title="Move backwards 20 generations">&#x23EA;</span-->
                    <span (click)="nav('-', 1)" title="Move backwards 1 generation">&#x25C0;</span>
-                   <span (click)="togglePlay()">
+                   <span (click)="togglePlaying()">
                        &nbsp;
                        <span *ngIf="!playing" title="Play"> &#x25BA;</span>
                        <span *ngIf="playing" title="Pause">&#10074;&#10074;</span>
@@ -46,9 +47,6 @@
                    <!--span (click)="nav('+', 20)" title="Move forward 20 generations">&#x23E9;</span-->
                 </div>
             </div>
-        </div>
-        <div *ngIf="creating">
-            <button type="button" class="btn btn-outline-primary w-100" (click)="analyze()">Analyze</button>
         </div>
     </div>
 </div>
