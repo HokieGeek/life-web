@@ -79,11 +79,15 @@ export class Experiment {
     columns: number
     seed: Generation
     generations: Generation[] = []
+    private lowGeneration: number
+    private highGeneration: number
 
     constructor(private lab: Lab, rows: number, columns: number, maxGenerations: number) {
         this.rows = rows
         this.columns = columns
     }
+
+    // TODO: use setInterval() to keep the generations map filled up to maxGenerations
 
     start() {
         console.log("TODO")
@@ -115,6 +119,8 @@ export class Experiment {
     get(num: number): Generation {
         console.log("TODO")
         return null
+        // TODO if num is outside the boundaries (lowGen, highGen), poll for gen 'num' as well as a buffer around it
+        // -> what about the boundaries? should I poll for the space between highGen and num+buffer? What if that is huge?
         // return this.generations.
     }
 }
