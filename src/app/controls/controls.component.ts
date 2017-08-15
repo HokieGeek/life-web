@@ -8,14 +8,11 @@ import { Lab } from '../lab.service';
   styleUrls: ['./controls.component.css']
 })
 export class ControlsComponent implements OnInit {
-    constructor(lab: Lab) {
-    }
+    constructor(private lab: Lab) { }
 
-    ngOnInit() {
-    }
+    ngOnInit() { }
 
     create() {
-        console.log("TODO: create a new petridish")
-        // this.lab.newExperiment()
+        this.lab.newExperiment()
     }
 }

@@ -1,0 +1,22 @@
+<div class="d-flex flex-column p-2 h-100 d-inline-block board-info">
+    <div class="d-flex flex-row dims">
+        <span title="rows">{{boardHeight}}</span> x <span title="columns">{{boardWidth}}</span> </div>
+    <div class="d-flex flex-row">
+        <span class="label">Generation:</span>
+        <span class="data">{{generation.generation}}</span>
+    </div>
+    <div class="d-flex flex-row">
+        <span class="label">Status:</span>
+        <span class="data">{{generation.status}}</span>
+    </div>
+    <div class="d-flex flex-row">
+        <span class="label">Num Living:</span>
+        <span class="data">{{generation.living.length}}</span>
+    </div>
+    <!--
+    <div class="d-flex flex-row">
+        <span class="label">Started:</span>
+        <span class="data">{{startTime}}</span>
+    </div>
+    -->
+</div>

@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { ControlsComponent } from './controls/controls.component';
 import { PetridishComponent } from './petridish/petridish.component';
 import { BoardComponent } from './petridish/board/board.component';
+import { CultureInfoComponent } from './petridish/culture-info/culture-info.component';
 import { DishrackComponent } from './dishrack/dishrack.component';
 
 import { Lab } from './lab.service';
@@ -17,6 +18,7 @@ import { Lab } from './lab.service';
     ControlsComponent,
     PetridishComponent,
     BoardComponent,
+    CultureInfoComponent,
     DishrackComponent
   ],
   imports: [
