@@ -15,10 +15,11 @@ Petridish's reason to be is to provide controls and a viewer to the timline stru
 })
 export class PetridishComponent implements OnInit {
     private playing: boolean = false
+    private creating: boolean = true
     cellSize: number = 3
     cellDensity: number = 60
     cellSpacing: number = 1
-    creating: boolean = true
+    playRateMs: number = 500
 
     @Input() experiment: Experiment
     currentGeneration: number = 0
@@ -27,6 +28,11 @@ export class PetridishComponent implements OnInit {
 
     ngOnInit() {
         this.createSeed()
+        setInterval(() => {
+                if (this.playing) {
+                    this.nav('+', 1)
+                }
+            }, this.playRateMs)
     }
 
     createSeed() {
@@ -52,19 +58,24 @@ export class PetridishComponent implements OnInit {
     }
 
     getCurrentGeneration() {
-        if (this.experiment.generations.length > 0) {
+        if (this.experiment.generations.size > 0) {
             return this.experiment.generations[this.currentGeneration]
         } else {
             return this.experiment.seed
         }
     }
 
-    togglePlay() {
+    togglePlaying() {
         this.playing = !this.playing
-        // TODO: do a thing
     }
 
     nav(direction, step) {
-        console.log("TODO: nav", direction, step)
+        // TODO: only perform navigation if experiment can go that far...
+        if (direction == '+') {
+            this.currentGeneration += step
+        } else if (direction == '-') {
+            this.currentGeneration -= step
+        }
+        console.log('Current generation:', this.currentGeneration)
     }
 }

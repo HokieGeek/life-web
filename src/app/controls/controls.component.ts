@@ -9,7 +9,7 @@ import { Lab } from '../lab.service';
 })
 export class ControlsComponent implements OnInit {
     defaultRows: number = 50
-    defaultColumns: number = 50
+    defaultColumns: number = 75
     defaultDensity: number = 60
 
     constructor(private lab: Lab) { }
@@ -17,6 +17,6 @@ export class ControlsComponent implements OnInit {
     ngOnInit() { }
 
     create() {
-        this.lab.newExperiment(50, 75)
+        this.lab.newExperiment(this.defaultRows, this.defaultColumns)
     }
 }
