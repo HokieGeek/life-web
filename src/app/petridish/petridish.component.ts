@@ -16,7 +16,7 @@ Petridish's reason to be is to provide controls and a viewer to the timline stru
 export class PetridishComponent implements OnInit {
     private playing: boolean = false
     cellSize: number = 3
-    cellDensity: number = 70
+    cellDensity: number = 60
     cellSpacing: number = 1
     creating: boolean = true
 
@@ -49,7 +49,7 @@ export class PetridishComponent implements OnInit {
 
     analyze() {
         this.creating = false
-        this.start.experiment.start()
+        this.experiment.start()
     }
 
     getCurrentGeneration() {
