@@ -101,18 +101,18 @@ export class Experiment {
                     console.log(">> ANALYZE CALLBACK", response)
                     this.id = response.Id
 
-                    // TODO: this.lab.control(response.Id, 0).subscribe(data => {})
+                    this.lab.control(response.Id, 0).subscribe(data => { console.log("order ret", data)})
                     setInterval(() => {
                             if (this.isPolling) {
                                 this.lab.poll(this.id, this.highGeneration, maxGenerationsPerPoll)
                                     .subscribe(updates => {
-                                            console.log(">> Handling updates:", updates)
-                                            if (this.generations.size > this.maxGenerations) {
-                                                for (var i = this.lowGeneration+maxGenerationsPerPoll; i >= 0; i--) {
-                                                    delete this.generations[i]
-                                                    this.lowGeneration++
-                                                }
-                                            }
+                                        // console.log(">> Handling updates:", updates)
+//                                            if (Object.keys(this.generations).length > this.maxGenerations) {
+//                                                for (var i = this.lowGeneration+maxGenerationsPerPoll; i >= 0; i--) {
+//                                                    delete this.generations[i]
+//                                                    this.lowGeneration++
+//                                                }
+//                                            }
 
                                             for (let update of updates.Updates) {
                                                 // console.log(">> POLL CALLBACK", update)
@@ -149,10 +149,13 @@ export class Experiment {
     }
 
     get(num: number): Generation {
-        console.log("TODO: get")
+        // console.log("get: ", num)
         if (num in this.generations) {
             return this.generations[num]
+        } else if (Object.keys(this.generations).length == 0 && this.seed != null) {
+            return this.seed
         } else {
+            console.log("oh oh: get(): ", num, this.generations)
             return null
         }
         // TODO if num is outside the boundaries (lowGen, highGen), poll for gen 'num' as well as a buffer around it
