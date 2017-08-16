@@ -35,6 +35,16 @@ export class PetridishComponent implements OnInit {
             }, this.playRateMs)
     }
 
+    ngOnDestroy() {
+        console.log("buh bye!")
+        this.experiment.incinerate()
+    }
+
+    destroy() {
+        console.log("TODO: destroy!")
+        this.experiment.incinerate()
+    }
+
     createSeed() {
         this.experiment.seed = new Generation(0, "Creating", this.generateSeed())
     }
