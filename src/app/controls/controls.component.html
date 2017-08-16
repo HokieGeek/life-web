@@ -4,7 +4,7 @@
       <div class="card">
         <div class="card-header text-center" role="tab" id="optionsHeading">
             <a data-toggle="collapse" data-parent="#accordion" href="#options" aria-expanded="true" aria-controls="options">
-              Options
+                <span>&#x2304;</span>
             </a>
         </div>
 
@@ -15,14 +15,25 @@
         </div>
       </div>
     </div>
-    <div id="accordion" role="tablist" aria-multiselectable="true">
-        <a class="text-center" data-toggle="collapse" data-parent="#accordion" href="#options" aria-expanded="true" aria-controls="options">
-            Options
-        </a>
-        <div id="options" class="collapse" role="tabpanel" aria-labelledby="optionsHeading">
-            TODO
-        </div>
-    </div>
     -->
     <button type="button" class="btn btn-primary btn-block" (click)="create()">Study Life!</button>
+    <div id="accordion" style="text-align: right" role="tablist" aria-multiselectable="true">
+        <a class="text-center w-100" data-toggle="collapse" data-parent="#accordion" href="#options" aria-expanded="true" aria-controls="options">
+            options <span>&#x2304;</span>
+        </a>
+        <div id="options" class="collapse text-center w-100" role="tabpanel" aria-labelledby="optionsHeading">
+            <div class="d-flex flex-row">
+                Rows: <input type="text" size="3" title="rows" [(ngModel)]="defaultRows" />
+            </div>
+            <div class="d-flex flex-row">
+                Columns: <input type="text" size="3" title="columns" [(ngModel)]="defaultColumns" />
+            </div>
+            <div class="d-flex flex-row">
+                Density: <!--input type="text" size="3" title="density" [(ngModel)]="defaultDensity" /-->{{defaultDensity}}
+            </div>
+            <div class="d-flex flex-row">
+                Auto Start: <input type="checkbox" title="Auto Start" [(ngModel)]="autoStart" />
+            </div>
+        </div>
+    </div>
 </div>

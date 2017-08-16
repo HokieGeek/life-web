@@ -101,13 +101,13 @@ export class Experiment {
                     console.log(">> ANALYZE CALLBACK", response)
                     this.id = response.Id
 
-                    this.lab.control(response.Id, 0).subscribe(data => { console.log("order ret", data)})
+                    this.lab.control(this.id, 0).subscribe()
                     setInterval(() => {
                             if (this.isPolling) {
                                 this.lab.poll(this.id, this.highGeneration, maxGenerationsPerPoll)
                                     .subscribe(updates => {
                                         // console.log(">> Handling updates:", updates)
-//                                            if (Object.keys(this.generations).length > this.maxGenerations) {
+//                                            if (this.numGenerations() > this.maxGenerations) {
 //                                                for (var i = this.lowGeneration+maxGenerationsPerPoll; i >= 0; i--) {
 //                                                    delete this.generations[i]
 //                                                    this.lowGeneration++
@@ -137,7 +137,6 @@ export class Experiment {
     // }
 
     start() {
-        console.log("TODO: start")
         if (this.id == null) {
             this.create()
         }
@@ -148,11 +147,20 @@ export class Experiment {
         this.isPolling = false
     }
 
+    incinerate() {
+        // delete this.lab.experiments[this]
+        this.lab.control(this.id, 1).subscribe()
+    }
+
+    numGenerations(): number {
+        return Object.keys(this.generations).length
+    }
+
     get(num: number): Generation {
         // console.log("get: ", num)
         if (num in this.generations) {
             return this.generations[num]
-        } else if (Object.keys(this.generations).length == 0 && this.seed != null) {
+        } else if (this.numGenerations() == 0 && this.seed != null) {
             return this.seed
         } else {
             console.log("oh oh: get(): ", num, this.generations)

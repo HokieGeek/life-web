@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { Cell } from '../../cell'
 import { Generation } from '../../lab.service'
@@ -9,6 +9,7 @@ import { Generation } from '../../lab.service'
   styleUrls: ['./culture-info.component.css']
 })
 export class CultureInfoComponent implements OnInit {
+    @Output() close:EventEmitter<boolean> = new EventEmitter<boolean>();
     @Input() generation: Generation
     @Input() boardWidth: number
     @Input() boardHeight: number
