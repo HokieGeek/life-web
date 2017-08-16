@@ -19,7 +19,7 @@ export class PetridishComponent implements OnInit {
     cellSize: number = 3
     cellDensity: number = 60
     cellSpacing: number = 1
-    playRateMs: number = 500
+    playRateMs: number = 100
 
     @Input() experiment: Experiment
     currentGeneration: number = 0
@@ -58,11 +58,7 @@ export class PetridishComponent implements OnInit {
     }
 
     getCurrentGeneration() {
-        if (this.experiment.generations.size > 0) {
-            return this.experiment.generations[this.currentGeneration]
-        } else {
-            return this.experiment.seed
-        }
+        return this.experiment.get(this.currentGeneration)
     }
 
     togglePlaying() {
