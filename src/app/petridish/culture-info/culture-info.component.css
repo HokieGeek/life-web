@@ -1,12 +1,24 @@
 .culture-info {
-    background: #fafafa;
+    background-color: #fafafa;
     border: 1px solid #a0a0a0;
     font-family: Verdana, sans-serif;
     font-size: .85em;
 }
 
+.status-active {
+    background-color: #f6f987;
+}
+
+.status-stable {
+    background-color: #8cff71;
+}
+
+.status-dead {
+    background-color: #ff4c4c;
+}
+
 .culture-info .dims {
-    color: #c0c0c0;
+    color: #848484;
     font-size: .65em;
 }
 
