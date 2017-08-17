@@ -75,7 +75,7 @@ export class Generation {
    * Order as map or fixed-sized list. The more you add to one end of the list, the more drop off the opposite end
 */
 
-const pollRateMs: number = 250
+const pollRateMs: number = 1000
 const maxGenerationsPerPoll: number = 25
 
 export class Experiment {
