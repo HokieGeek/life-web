@@ -85,6 +85,5 @@ export class PetridishComponent implements OnInit {
         } else if (direction == '-') {
             this.currentGeneration -= step
         }
-        // console.log('Current generation:', this.currentGeneration)
     }
 }
