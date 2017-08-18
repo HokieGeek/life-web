@@ -13,8 +13,8 @@ export class Lab {
 
     constructor(private http: Http) { }
 
-    newExperiment(rows: number, cols: number) {
-        this.experiments.push(new Experiment(this, rows, cols, maxGenerationsPerExperiment))
+    newExperiment(rows: number, cols: number, density: number, autostart: boolean) {
+        this.experiments.push(new Experiment(this, rows, cols, density, autostart, maxGenerationsPerExperiment))
     }
 
     /*
@@ -82,6 +82,8 @@ export class Experiment {
     id: string
     rows: number
     columns: number
+    initialDensity: number
+    autoStart: boolean
     seed: Generation
     generations: { [gen: number]: Generation } = {}
     maxGenerations: number
@@ -89,9 +91,11 @@ export class Experiment {
     private highGeneration: number = 0
     private isPolling: boolean = true
 
-    constructor(private lab: Lab, rows: number, columns: number, maxGenerations: number) {
+    constructor(private lab: Lab, rows: number, columns: number, density: number, autoStart: boolean, maxGenerations: number) {
         this.rows = rows
         this.columns = columns
+        this.initialDensity = density
+        this.autoStart = autoStart
         this.maxGenerations = maxGenerations
     }
 

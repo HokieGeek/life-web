@@ -17,7 +17,6 @@ export class PetridishComponent implements OnInit {
     private playing: boolean = false
     private creating: boolean = true
     cellSize: number = 3
-    cellDensity: number = 60
     cellSpacing: number = 1
     playRateMs: number = 100
 
@@ -33,6 +32,10 @@ export class PetridishComponent implements OnInit {
                     this.nav('+', 1)
                 }
             }, this.playRateMs)
+
+        if (this.experiment.autoStart) {
+            this.analyze()
+        }
     }
 
     ngOnDestroy() {
@@ -54,7 +57,7 @@ export class PetridishComponent implements OnInit {
         for (var row = this.experiment.rows-1; row >= 0; row--) {
             for (var col = this.experiment.columns-1; col >= 0; col--) {
                 var randomVal = Math.random() * 100
-                if (randomVal > this.cellDensity) continue
+                if (randomVal > this.experiment.initialDensity) continue
                 seed.push(new Cell(col, row))
             }
         }
