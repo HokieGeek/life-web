@@ -36,14 +36,18 @@
                     </culture-info>
                 </div>
                 <div *ngIf="!creating" class="mt-1 playback-controls align-items-end">
-                   <!--span (click)="nav('-', 20)" title="Move backwards 20 generations">&#x23EA;</span-->
-                   <span (click)="nav('-', 1)" title="Move backwards 1 generation">&#x25c4;</span>
-                   <span (click)="togglePlaying()">
-                       <span *ngIf="!playing" title="Play"> &#x25b6;</span>
-                       <span *ngIf="playing" title="Pause">▮▮<!--&#10074;&#10074;--></span>
-                   </span>
-                   <span (click)="nav('+', 1)" title="Move forward 1 generation">&#x25ba;</span>
-                   <!--span (click)="nav('+', 20)" title="Move forward 20 generations">&#x23E9;</span-->
+                    <span *ngIf="!playing">
+                        <!--span (click)="nav('-', 20)" title="Move backwards 20 generations">&#x23EA;</span-->
+                        <span (click)="nav('-', 1)" title="Move backwards 1 generation">&#x25c4;</span>
+                    </span>
+                    <span (click)="togglePlaying()">
+                        <span *ngIf="!playing" title="Play">&#x25ba;</span>
+                        <span *ngIf="playing" title="Pause">▮▮<!--&#10074;&#10074;--></span>
+                    </span>
+                    <span *ngIf="!playing">
+                        <span (click)="nav('+', 1)" title="Move forward 1 generation">&#x25b6;</span>
+                        <!--span (click)="nav('+', 20)" title="Move forward 20 generations">&#x23E9;</span-->
+                    </span>
                 </div>
             </div>
         </div>

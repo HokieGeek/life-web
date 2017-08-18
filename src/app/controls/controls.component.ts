@@ -11,7 +11,7 @@ export class ControlsComponent implements OnInit {
     defaultRows: number = 50
     defaultColumns: number = 75
     defaultDensity: number = 60
-    autoStart: boolean = false
+    autoStart: boolean = true
 
     constructor(private lab: Lab) { }
 
