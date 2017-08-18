@@ -1,0 +1,7 @@
+.settings-toggle {
+    color: #909090;
+    cursor: pointer;
+}
+.settings-toggle:hover {
+    background-color: #e5e5e5;
+}
