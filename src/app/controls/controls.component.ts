@@ -18,6 +18,7 @@ export class ControlsComponent implements OnInit {
     ngOnInit() { }
 
     create() {
-        this.lab.newExperiment(this.defaultRows, this.defaultColumns, this.defaultDensity, this.autoStart)
+        this.lab.newExperiment(Number(this.defaultRows), Number(this.defaultColumns),
+                               Number(this.defaultDensity), this.autoStart)
     }
 }
