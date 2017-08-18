@@ -10,11 +10,11 @@
             </div>
             <div class="d-flex flex-row">
                 <span style="margin-right: 5px;">Cell&nbsp;size: </span>
-                <input type="range" min="2" max="6" [(ngModel)]="cellSize" title="cellSize" />
+                <input type="range" min="2" max="6" [(ngModel)]="cellSize" [title]="cellSize" />
             </div>
             <div class="d-flex flex-row">
                 <span style="margin-right: 5px;">Density: </span>
-                <input type="range" min="10" max="90" [(ngModel)]="cellDensity" (change)="createSeed()" title="cellDensity" />
+                <input type="range" min="10" max="90" [(ngModel)]="experiment.initialDensity" (change)="createSeed()" [title]="experiment.initialDensity" />
             </div>
             <!--button type="button"
                     class="btn btn-secondary align-self-stretch"
