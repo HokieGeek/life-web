@@ -1,35 +1,33 @@
 <div>
     <button type="button" class="btn btn-primary btn-block" (click)="create()">Study Life!</button>
-    <div id="accordion" style="text-align: right" role="tablist" aria-multiselectable="true">
-        <a class="text-center w-100" data-toggle="collapse" data-parent="#accordion" href="#options" aria-expanded="true" aria-controls="options">
-            default settings <span>&#x2304;</span>
-        </a>
-        <div id="options" class="collapse" role="tabpanel" aria-labelledby="optionsHeading">
-            <div id="options" class="w-100 d-flex justify-content-around">
-                <div class="d-flex flex-row">
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">Rows</span>
-                        <input type="text" class="form-control" size="3" placeholder="rows" [(ngModel)]="defaultRows" aria-describedby="basic-addon1">
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">Cols</span>
-                        <input type="text" class="form-control" size="3" placeholder="columns" [(ngModel)]="defaultColumns" aria-describedby="basic-addon1">
-                    </div>
+    <div class="text-center w-100 settings-toggle" data-toggle="collapse" data-target="#defaultSettings" title="default settings">
+        &#x2304;
+    </div>
+    <div id="defaultSettings" class="collapse" role="tabpanel" aria-labelledby="settingsHeading">
+        <div id="options" class="w-100 d-flex justify-content-around">
+            <div class="d-flex flex-row">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">Rows</span>
+                    <input type="text" class="form-control" size="3" placeholder="rows" [(ngModel)]="defaultRows" aria-describedby="basic-addon1">
                 </div>
-                <div class="d-flex flex-row">
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">Density</span>
-                        <input type="text" class="form-control" size="3" placeholder="density" [(ngModel)]="defaultDensity" aria-describedby="basic-addon1">
-                        <span class="input-group-addon">%</span>
-                    </div>
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">Cols</span>
+                    <input type="text" class="form-control" size="3" placeholder="columns" [(ngModel)]="defaultColumns" aria-describedby="basic-addon1">
                 </div>
-                <div class="d-flex flex-row">
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <input type="checkbox" [(ngModel)]="autoStart" aria-label="Checkbox for following text input">
-                        </span>
-                        <span class="input-group-addon">Autostart</span>
-                    </div>
+            </div>
+            <div class="d-flex flex-row">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">Density</span>
+                    <input type="text" class="form-control" size="3" placeholder="density" [(ngModel)]="defaultDensity" aria-describedby="basic-addon1">
+                    <span class="input-group-addon">%</span>
+                </div>
+            </div>
+            <div class="d-flex flex-row">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <input type="checkbox" [(ngModel)]="autoStart" aria-label="Checkbox for following text input">
+                    </span>
+                    <span class="input-group-addon">Autostart</span>
                 </div>
             </div>
         </div>
