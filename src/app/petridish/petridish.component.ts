@@ -18,7 +18,7 @@ export class PetridishComponent implements OnInit {
     private creating: boolean = true
     cellSize: number = 3
     cellSpacing: number = 1
-    playRateMs: number = 100
+    playRateMs: number = 50
 
     @Input() experiment: Experiment
     currentGeneration: number = 0
@@ -28,7 +28,7 @@ export class PetridishComponent implements OnInit {
     ngOnInit() {
         this.createSeed()
         setInterval(() => {
-                if (this.playing) {
+                if (this.playing && this.experiment.numGenerations() > this.currentGeneration) {
                     this.nav('+', 1)
                 }
             }, this.playRateMs)

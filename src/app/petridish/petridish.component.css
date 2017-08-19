@@ -1,6 +1,12 @@
-.dimbox {
-    height: 25px;
-    width: 45px;
+.range {
+    border: 1px solid rgba(0,0,0,.15);
+    border-left-color: #e0e0e0;
+    vertical-align: middle;
+    background-color: #fdfdfd;
+}
+
+.range input {
+    height: 100%;
 }
 
 .playback-controls {
