@@ -2,25 +2,35 @@
     <!-- TODO: Add delete button -->
     <div class="d-flex flex-column">
         <span *ngIf="creating">
-            <div class="d-flex flex-row">
-                <span style="margin-right: 5px;">Width: </span>
-                <input type="text" class="dimbox" size="3" title="rows" [(ngModel)]="experiment.rows" (change)="createSeed()" />
-                <span style="margin-right: 5px;">Height: </span>
-                <input type="text" class="dimbox" size="3" title="columns" [(ngModel)]="experiment.columns" (change)="createSeed()" />
+            <div class="d-flex flex-row mb-1">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">Rows</span>
+                    <input type="text" class="form-control" size="3" placeholder="rows" [(ngModel)]="experiment.rows" (change)="createSeed()" aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group ml-1">
+                    <span class="input-group-addon" id="basic-addon1">Cols</span>
+                    <input type="text" class="form-control" size="3" placeholder="columns" [(ngModel)]="experiment.columns" (change)="createSeed()" aria-describedby="basic-addon1">
+                </div>
             </div>
-            <div class="d-flex flex-row">
-                <span style="margin-right: 5px;">Cell&nbsp;size: </span>
-                <input type="range" min="2" max="6" [(ngModel)]="cellSize" [title]="cellSize" />
-            </div>
-            <div class="d-flex flex-row">
-                <span style="margin-right: 5px;">Density: </span>
-                <input type="range" min="10" max="90" [(ngModel)]="experiment.initialDensity" (change)="createSeed()" [title]="experiment.initialDensity" />
+            <div class="d-flex flex-row mb-1">
+                <div class="input-group align-self-stretch">
+                    <span class="input-group-addon" id="basic-addon1">Cell size</span>
+                    <span class="range rounded-right">
+                        <input type="range" min="2" max="6" [(ngModel)]="cellSize" [title]="cellSize" />
+                    </span>
+                </div>
+                <div class="input-group ml-1 align-self-stretch">
+                    <span class="input-group-addon" id="basic-addon1">Density</span>
+                    <span class="range rounded-right">
+                        <input type="range" min="10" max="90" [(ngModel)]="experiment.initialDensity" (change)="createSeed()" [title]="experiment.initialDensity" />
+                    </span>
+                </div>
             </div>
             <!--button type="button"
                     class="btn btn-secondary align-self-stretch"
                     title="Regenerate seed"
                     (click)="createSeed()">&#x21BA;</button-->
-            <button type="button" class="btn btn-outline-primary w-100" (click)="analyze()">Analyze</button>
+            <button type="button" class="btn btn-outline-info w-100" (click)="analyze()">Analyze</button>
         </span>
         <div class="d-flex flex-row mt-1">
             <board [cols]="experiment.columns" [rows]="experiment.rows"
@@ -37,16 +47,16 @@
                 </div>
                 <div *ngIf="!creating" class="mt-1 playback-controls align-items-end">
                     <span *ngIf="!playing">
-                        <!--span (click)="nav('-', 20)" title="Move backwards 20 generations">&#x23EA;</span-->
-                        <span (click)="nav('-', 1)" title="Move backwards 1 generation">&#x25c4;</span>
+                        <span (click)="nav('-', 20)" title="Move backwards 20 generations">&#x25c5;</span>
+                        <span (click)="nav('-', 1)" title="Move backwards 1 generation">&#x25c2;</span>
                     </span>
                     <span (click)="togglePlaying()">
                         <span *ngIf="!playing" title="Play">&#x25ba;</span>
-                        <span *ngIf="playing" title="Pause">▮▮<!--&#10074;&#10074;--></span>
+                        <span *ngIf="playing" title="Pause">▮▮</span>
                     </span>
                     <span *ngIf="!playing">
-                        <span (click)="nav('+', 1)" title="Move forward 1 generation">&#x25b6;</span>
-                        <!--span (click)="nav('+', 20)" title="Move forward 20 generations">&#x23E9;</span-->
+                        <span (click)="nav('+', 1)" title="Move forward 1 generation">&#x25b8;</span>
+                        <span (click)="nav('+', 20)" title="Move forward 20 generations">&#x25bb;</span>
                     </span>
                 </div>
             </div>
