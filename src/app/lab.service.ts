@@ -47,13 +47,13 @@ export class Lab {
     }
 
     poll(id, startingGen, maxGen) {
-        const req = {"Id": id, "StartingGeneration": startingGen, "NumMaxGenerations": maxGen}
+        const req = {"ID": id, "StartingGeneration": startingGen, "NumMaxGenerations": maxGen}
         return this.http.post(server+"/poll", JSON.stringify(req))
                 .map((res: Response) => res.json())
     }
 
     control(id, order) {
-        return this.http.post(server+"/control", JSON.stringify({"Id": id, "Order": order}))
+        return this.http.post(server+"/control", JSON.stringify({"ID": id, "Order": order}))
     }
 }
 
@@ -103,7 +103,7 @@ export class Experiment {
         this.lab.createExperiment(this.columns, this.rows, this.seed.living)
             .subscribe(response => {
                     console.log(">> ANALYZE CALLBACK", response)
-                    this.id = response.Id
+                    this.id = response.ID
 
                     this.lab.control(this.id, 0).subscribe()
                     setInterval(() => {
