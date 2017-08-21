@@ -17,30 +17,16 @@ export class Lab {
         this.experiments.push(new Experiment(this, rows, cols, density, autostart, maxGenerationsPerExperiment))
     }
 
-    /*
-    startExperiment2(width, height, seed) {
-        const req = {Dims: {Width: width, Height: height}, Pattern: 0, Seed: seed}
-        this.http.post(server+"/analyze", JSON.stringify(req)).subscribe(data => {
-            // if (data.status != 422) {
-                var response = data.json()
-                console.log(">> START EXPERIMENT CALLBACK", response)
-                this.poll(response.Id, 0, maxGenerationsPerPoll)
-                    .subscribe(updates => {
-                            // console.log(">> POLL CALLBACK", updates)
-                            for (let update of updates.Updates) {
-                                console.log(">> UPDATE", update)
-                            }
-                        }
-                    )
-            // }
-        })
-        // .catch()
+    removeExperiment(experiment: Experiment) {
+        var index: number = this.experiments.indexOf(experiment);
+        if (index > -1) {
+            this.experiments.splice(index, 1);
+            // this.lab.control(this.id, 1)
+        }
     }
-        */
 
     createExperiment(width, height, seed) {
         const req = {Dims: {Width: width, Height: height}, Pattern: 0, Seed: seed}
-        // this.http.post(server+"/analyze", JSON.stringify(req)).subscribe(callback)
         return this.http.post(server+"/analyze", JSON.stringify(req))
                 .map((res: Response) => res.json())
         // .catch()
@@ -53,7 +39,8 @@ export class Lab {
     }
 
     control(id, order) {
-        return this.http.post(server+"/control", JSON.stringify({"ID": id, "Order": order}))
+        // console.log(">> CONTROL")
+        this.http.post(server+"/control", JSON.stringify({"ID": id, "Order": order})).subscribe(blah => console.log("blah", blah))
     }
 }
 
@@ -68,12 +55,6 @@ export class Generation {
         this.living = l
     }
 }
-
-/*
-   A structure (Experiment) which keeps the timeline window of living cells
-   * Needs a min and max
-   * Order as map or fixed-sized list. The more you add to one end of the list, the more drop off the opposite end
-*/
 
 const pollRateMs: number = 1000
 const maxGenerationsPerPoll: number = 25
@@ -90,6 +71,7 @@ export class Experiment {
     private lowGeneration: number = 0
     private highGeneration: number = 0
     private isPolling: boolean = true
+    private poller
 
     constructor(private lab: Lab, rows: number, columns: number, density: number, autoStart: boolean, maxGenerations: number) {
         this.rows = rows
@@ -102,22 +84,14 @@ export class Experiment {
     private create() {
         this.lab.createExperiment(this.columns, this.rows, this.seed.living)
             .subscribe(response => {
-                    console.log(">> ANALYZE CALLBACK", response)
+                    // console.log(">> ANALYZE CALLBACK", response)
                     this.id = response.ID
 
-                    this.lab.control(this.id, 0).subscribe()
-                    setInterval(() => {
+                    this.lab.control(this.id, 0)
+                    this.poller = setInterval(() => {
                             if (this.isPolling) {
                                 this.lab.poll(this.id, this.highGeneration, maxGenerationsPerPoll)
                                     .subscribe(updates => {
-                                        // console.log(">> Handling updates:", updates)
-//                                            if (this.numGenerations() > this.maxGenerations) {
-//                                                for (var i = this.lowGeneration+maxGenerationsPerPoll; i >= 0; i--) {
-//                                                    delete this.generations[i]
-//                                                    this.lowGeneration++
-//                                                }
-//                                            }
-
                                             for (let update of updates.Updates) {
                                                 // console.log(">> POLL CALLBACK", update)
                                                 if (update.Generation < this.lowGeneration) {
@@ -137,9 +111,6 @@ export class Experiment {
             )
     }
 
-    // private handleUpdates(updates) {
-    // }
-
     start() {
         if (this.id == null) {
             this.create()
@@ -152,8 +123,10 @@ export class Experiment {
     }
 
     incinerate() {
-        // delete this.lab.experiments[this]
-        this.lab.control(this.id, 1).subscribe()
+        this.stop()
+        clearInterval(this.poller)
+        this.lab.removeExperiment(this)
+        this.lab.control(this.id, 2)
     }
 
     numGenerations(): number {

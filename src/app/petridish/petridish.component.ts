@@ -38,13 +38,7 @@ export class PetridishComponent implements OnInit {
         }
     }
 
-    ngOnDestroy() {
-        console.log("buh bye!")
-        this.experiment.incinerate()
-    }
-
     destroy() {
-        console.log("TODO: destroy!")
         this.experiment.incinerate()
     }
 
