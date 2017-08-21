@@ -46,18 +46,25 @@
                     </culture-info>
                 </div>
                 <div *ngIf="!creating" class="mt-1 playback-controls align-items-end">
-                    <span *ngIf="!playing">
-                        <span (click)="nav('-', 20)" title="Move backwards 20 generations">&#x25c5;</span>
-                        <span (click)="nav('-', 1)" title="Move backwards 1 generation">&#x25c2;</span>
-                    </span>
-                    <span (click)="togglePlaying()">
-                        <span *ngIf="!playing" title="Play">&#x25ba;</span>
-                        <span *ngIf="playing" title="Pause">▮▮</span>
-                    </span>
-                    <span *ngIf="!playing">
-                        <span (click)="nav('+', 1)" title="Move forward 1 generation">&#x25b8;</span>
-                        <span (click)="nav('+', 20)" title="Move forward 20 generations">&#x25bb;</span>
-                    </span>
+                    <div>
+                        <span *ngIf="!playing">
+                            <span (click)="nav('-', 20)" title="Move backwards 20 generations">&#x25c5;</span>
+                            <span (click)="nav('-', 1)" title="Move backwards 1 generation">&#x25c2;</span>
+                        </span>
+                        <span (click)="togglePlaying()">
+                            <span *ngIf="!playing" title="Play">&#x25ba;</span>
+                            <span *ngIf="playing" title="Pause">▮▮</span>
+                        </span>
+                        <span *ngIf="!playing">
+                            <span (click)="nav('+', 1)" title="Move forward 1 generation">&#x25b8;</span>
+                            <span (click)="nav('+', 20)" title="Move forward 20 generations">&#x25bb;</span>
+                        </span>
+                    </div>
+                    <div class="speed">
+                        <span (click)="speed('-', 10)" title="decrease rate">-</span>
+                        <span>{{playRateMs}}ms</span>
+                        <span (click)="speed('+', 10)" title="increase rate">+</span>
+                    </div>
                 </div>
             </div>
         </div>

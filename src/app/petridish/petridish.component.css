@@ -16,3 +16,8 @@
     vertical-align: middle;
     cursor: pointer;
 }
+.speed {
+    margin-right: 2px;
+    margin-left: 2px;
+    font-size: .65em;
+}

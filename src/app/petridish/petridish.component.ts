@@ -80,4 +80,12 @@ export class PetridishComponent implements OnInit {
             this.currentGeneration -= step
         }
     }
+
+    speed(direction, step) {
+        if (direction == '+') {
+            this.playRateMs += step
+        } else if (direction == '-' && (this.playRateMs-step > 0)) {
+            this.playRateMs -= step
+        }
+    }
 }
